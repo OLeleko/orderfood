@@ -1,0 +1,11 @@
+SELECT a.CountryID, a.Name FROM DASHA.Country a JOIN
+(SELECT c.countryID AS CountID, SUM(c.Population) AS Population FROM DASHA.City c  GROUP BY c.CountryID) s
+ON a.CountryID=s.CountID
+WHERE s.Population > 400;
+
+
+
+
+SELECT a.Name FROM DASHA.Country a JOIN
+(SELECT c.CityID AS CityID, c.CountryID AS CountryID, COUNT(b.Name) AS CityCount FROM DASHA.City c LEFT JOIN DASHA.Building b ON c.CityID=b.CityID GROUP BY c.CityID) s
+ON a.CountryID=s.CountryID  GROUP BY a.CountryID HAVING SUM(s.CityCount)=0;
